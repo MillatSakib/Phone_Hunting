@@ -10,7 +10,10 @@
     <title>Phone Hunting</title>
 </head>
 
-<body>
+<body class="relative">
+    <div class="fixed inset-x-2/4 inset-y-[40vh] text-blue-500 z-50" id="loader"><span
+            class="loading loading-spinner loading-lg"></span>
+    </div>
 
     <header class="text-6xl">Hunting Phone</header>
     <div class="navbar bg-base-100">
@@ -30,12 +33,16 @@
 
     <main>
 
-        <div id="phoneContainer"
-            class="flex items-center  md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 flex-col max-w-[1600px] mx-auto">
-        </div>
 
 
-        <div class="text-center my-4"><button class="btn btn-info text-white" id="showMore">Show More</button>
+        <div class="hidden" id='bodySection'>
+            <div id="phoneContainer"
+                class="flex items-center  md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 flex-col max-w-[1600px] mx-auto">
+            </div>
+
+
+            <div class="text-center my-4"><button class="btn btn-info text-white" id="showMore">Show More</button>
+            </div>
         </div>
     </main>
 

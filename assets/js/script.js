@@ -1,5 +1,3 @@
-
-
 let allPhones;
 const loadPhone = async (searchPhone, showAllState) => {
     const res = await fetch(`https://openapi.programming-hero.com/api/phones?search=${searchPhone}`);
@@ -46,10 +44,13 @@ const displayPhone = (phones, showAllState) => {
 
         phoneContainer.appendChild(phoneCard);
     });
-
+    document.getElementById('loader').classList.add('hidden');
+    document.getElementById('bodySection').classList.remove('hidden');
 }
 
 function handleSearch() {
+    document.getElementById('loader').classList.remove('hidden');
+    document.getElementById('bodySection').classList.add('hidden');
     const searchField = document.getElementById('searchFeild');
     const searchText = searchField.value;
     const phoneContainer = document.getElementById('phoneContainer');
@@ -58,13 +59,11 @@ function handleSearch() {
     loadPhone(searchText);
 }
 
-
-
-
-
-
-
-document.getElementById('showMore').addEventListener('click', () => displayPhone(allPhones, 1))
+document.getElementById('showMore').addEventListener('click', () => {
+    document.getElementById('loader').classList.remove('hidden');
+    document.getElementById('bodySection').classList.add('hidden');
+    displayPhone(allPhones, 1);
+})
 document.getElementById('search').addEventListener('click', handleSearch);
 
 loadPhone('samsung');
