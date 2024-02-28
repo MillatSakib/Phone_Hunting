@@ -1,17 +1,37 @@
 
 
-
-const loadPhone = async (searchPhone) => {
+let allPhones;
+const loadPhone = async (searchPhone, showAllState) => {
     const res = await fetch(`https://openapi.programming-hero.com/api/phones?search=${searchPhone}`);
     const data = await res.json();
-    const phones = data.data;
-    displayPhone(phones);
+    allPhones = data.data;
+    displayPhone(allPhones, showAllState);
     console.log(searchPhone);
 }
 
-const displayPhone = phones => {
+const displayPhone = (phones, showAllState) => {
     console.log(phones)
     const phoneContainer = document.getElementById('phoneContainer')
+    phoneContainer.textContent = '';
+
+
+    if (showAllState === 1) {
+
+        document.getElementById('showMore').classList.remove("inline");
+        document.getElementById('showMore').classList.add("hidden");
+
+    }
+    else if (phones.length < 13) {
+        document.getElementById('showMore').classList.remove("inline");
+        document.getElementById('showMore').classList.add("hidden");
+    }
+    else {
+        phones = phones.slice(0, 12);
+        document.getElementById('showMore').classList.remove("hidden");
+        document.getElementById('showMore').classList.add("inline");
+    }
+
+
     phones.forEach(phone => {
         const phoneCard = document.createElement('div');
         phoneCard.classList = `card max-w-96 bg-gray-100 shadow-xl text-center my-2`;
@@ -44,7 +64,7 @@ function handleSearch() {
 
 
 
-
+document.getElementById('showMore').addEventListener('click', () => displayPhone(allPhones, 1))
 document.getElementById('search').addEventListener('click', handleSearch);
 
 loadPhone('samsung');
