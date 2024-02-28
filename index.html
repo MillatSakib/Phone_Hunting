@@ -3,19 +3,43 @@
 
 <head>
     <link rel="stylesheet" href="./assets/css/style.css">
-
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.min.css" rel="stylesheet" type="text/css" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Phone Hunting</title>
 </head>
 
-<body>
+<body class="bg-white">
+
+    <header class="text-6xl">Hunting Phone</header>
+    <div class="navbar bg-base-100">
+        <div class="flex-1">
+            <a class="btn btn-ghost text-xl">daisyUI</a>
+        </div>
+        <div class="flex-none gap-2">
+            <div class="form-control">
+                <input type="text" placeholder="Search" id="searchFeild" class="input input-bordered w-24 md:w-auto" />
+            </div>
+            <div class="dropdown dropdown-end">
+
+                <button class="btn btn-outline btn-success" id="search">Search</button>
+            </div>
+        </div>
+    </div>
+
+    <main>
+
+        <div id="phoneContainer"
+            class="flex items-center  md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 flex-col max-w-[1600px] mx-auto">
+        </div>
 
 
+
+    </main>
 
     <script src="./assets/js/script.js"></script>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+
 
 </body>
 
