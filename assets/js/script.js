@@ -1,3 +1,5 @@
+let trackShowAll = 12;
+let currentPageProduct = 'iphone';
 let allPhones;
 const loadPhone = async (searchPhone, showAllState) => {
     const res = await fetch(`https://openapi.programming-hero.com/api/phones?search=${searchPhone}`);
@@ -13,27 +15,33 @@ const displayPhone = (phones, showAllState) => {
     phoneContainer.textContent = '';
 
 
-    if (showAllState === 1) {
+    // if (showAllState === 1) {
 
-        document.getElementById('showMore').classList.remove("inline");
-        document.getElementById('showMore').classList.add("hidden");
+    //     document.getElementById('showMore').classList.remove("inline");
+    //     document.getElementById('showMore').classList.add("hidden");
 
-    }
-    else if (phones.length < 13) {
+    // }
+    if (phones.length < 25) {
         document.getElementById('showMore').classList.remove("inline");
         document.getElementById('showMore').classList.add("hidden");
     }
     else {
-        phones = phones.slice(0, 12);
-        document.getElementById('showMore').classList.remove("hidden");
-        document.getElementById('showMore').classList.add("inline");
+        trackShowAll += 12;
+        phones = phones.slice(0, trackShowAll);
+        if (trackShowAll > phones.length) {
+            document.getElementById('showMore').classList.add("hidden");
+        } else {
+            document.getElementById('showMore').classList.remove("hidden");
+            document.getElementById('showMore').classList.add("inline");
+
+        }
     }
 
 
     phones.forEach(phone => {
         const phoneCard = document.createElement('div');
         phoneCard.classList = `card max-w-96 bg-gray-100 shadow-xl text-center my-2`;
-        phoneCard.innerHTML = `<figure><img src="${phone.image}" alt="Shoes" class="mx-auto" /></figure>
+        phoneCard.innerHTML = `<figure><img src="${phone.image}" alt="Shoes" class="mx-auto my-4" /></figure>
         <div class="card-body">
             <h2 class="card-title mx-auto text-black font-bold">${phone.phone_name}</h2>
             <p class="text-black">There are many variations of passages of available, but the majority have suffered</p>
@@ -44,15 +52,23 @@ const displayPhone = (phones, showAllState) => {
 
         phoneContainer.appendChild(phoneCard);
     });
-    document.getElementById('loader').classList.add('hidden');
-    document.getElementById('bodySection').classList.remove('hidden');
+    setTimeout(() => {
+        document.getElementById('loader').classList.add('hidden');
+        document.getElementById('bodySection').classList.remove('hidden');
+    }, 100)
+
+
 }
 
 function handleSearch() {
     document.getElementById('loader').classList.remove('hidden');
     document.getElementById('bodySection').classList.add('hidden');
     const searchField = document.getElementById('searchFeild');
-    const searchText = searchField.value;
+    let searchText = searchField.value;
+    if (searchText === '') {
+        searchText = currentPageProduct;
+        console.log(searchText)
+    }
     const phoneContainer = document.getElementById('phoneContainer');
     phoneContainer.innerHTML = ''
     // console.log(searchText);
@@ -61,9 +77,12 @@ function handleSearch() {
 
 document.getElementById('showMore').addEventListener('click', () => {
     document.getElementById('loader').classList.remove('hidden');
-    document.getElementById('bodySection').classList.add('hidden');
+    // document.getElementById('bodySection').classList.add('hidden');
     displayPhone(allPhones, 1);
 })
+
+
+
 document.getElementById('search').addEventListener('click', handleSearch);
 
-loadPhone('samsung');
+loadPhone(currentPageProduct);
