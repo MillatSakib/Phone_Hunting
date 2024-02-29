@@ -1,7 +1,8 @@
-let trackShowAll = 12;
-let currentPageProduct = 'iphone';
+let trackShowAll = 0;
+let currentPageProduct = 'a';
 let allPhones;
 const loadPhone = async (searchPhone, showAllState) => {
+    trackShowAll = 0;
     const res = await fetch(`https://openapi.programming-hero.com/api/phones?search=${searchPhone}`);
     const data = await res.json();
     allPhones = data.data;
@@ -21,7 +22,7 @@ const displayPhone = (phones, showAllState) => {
     //     document.getElementById('showMore').classList.add("hidden");
 
     // }
-    if (phones.length < 25) {
+    if (phones.length < 13) {
         document.getElementById('showMore').classList.remove("inline");
         document.getElementById('showMore').classList.add("hidden");
     }
@@ -46,7 +47,9 @@ const displayPhone = (phones, showAllState) => {
             <h2 class="card-title mx-auto text-black font-bold">${phone.phone_name}</h2>
             <p class="text-black">There are many variations of passages of available, but the majority have suffered</p>
             <div class="card-actions justify-end">
-                <button class="btn btn-primary text-white" onclick="details()">Buy Now</button>
+            <div><button class="btn btn-secondary text-white"
+        onclick="my_modal_5.showModal()" id="next_btn">Buy Now</button></div>
+                <div><button class="btn btn-primary text-white" onclick="handleShowDetail('${phone.slug}')">Show Details</button></div>
             </div>
         </div>`
 
@@ -85,4 +88,42 @@ document.getElementById('showMore').addEventListener('click', () => {
 
 document.getElementById('search').addEventListener('click', handleSearch);
 
+// document.getElementById('searchFeild').addEventListener("keypress", function (e) {
+//     // Check if the keycode is 13 (Enter key)
+//     if (e.keyCode === 13) {
+//         console.log("presed enter");
+//         handleSearch();
+//     }
+// });
+
+
+document.getElementById('searchFeild').addEventListener("keypress", function (e) {
+    // Check if the keycode is 13 (Enter key)
+    if (e.key === 'Enter') {
+        console.log("presed enter");
+        handleSearch();
+    }
+});
+
+
+const handleShowDetail = async (id) => {
+    console.log('Clicked show details', id)
+    const res = await fetch(`https://openapi.programming-hero.com/api/phone/${id}`);
+    const data = await res.json();
+    const phone = data.data;
+    showPhoneDetails(phone);
+}
+
+const showPhoneDetails = (phone) => {
+    const phoneName = document.getElementById('show-detail-phone-name');
+    phoneName.innerText = phone.name;
+    const showDetailContainer = document.getElementById('show-detail-container');
+    showDetailContainer.innerHTML = `<img src="${phone.image}" alt=""/>
+    <p><sapn>Storage: </sapn>${phone.mainFeatures?.storage}</p>
+    <p><sapn>GPS: </sapn>${phone.mainFeatures?.storage}</p>
+    `
+    show_details_modal.showModal();
+}
+
 loadPhone(currentPageProduct);
+
