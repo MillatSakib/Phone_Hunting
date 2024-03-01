@@ -1,6 +1,7 @@
 let trackShowAll = 0;
 let currentPageProduct = 'a';
 let allPhones;
+let noItems;
 const loadPhone = async (searchPhone, showAllState) => {
     trackShowAll = 0;
     const res = await fetch(`https://openapi.programming-hero.com/api/phones?search=${searchPhone}`);
@@ -22,9 +23,23 @@ const displayPhone = (phones, showAllState) => {
     //     document.getElementById('showMore').classList.add("hidden");
 
     // }
-    if (phones.length < 13) {
+    document.getElementById('no_items').classList.add('hidden');
+
+
+    if (phones.length === 0) {
+        document.getElementById('no_items').classList.remove('hidden');
+        document.getElementById('loader').classList.add('hidden');
+        document.getElementById('bodySection').classList.add('hidden');
+        noItems = document.getElementById('no_items')
+        noItems.innerHTML = `<div><img src="./assets/img/no_data_found.png" class="w-[70%] mx-auto mb-10"></div>
+            <div class="font-extrabold text-3xl text-red-600 mb-6"> OOPS!!! No  items found!</div> `
+        return;
+
+    }
+    else if (phones.length < 13) {
         document.getElementById('showMore').classList.remove("inline");
         document.getElementById('showMore').classList.add("hidden");
+
     }
     else {
         trackShowAll += 12;
